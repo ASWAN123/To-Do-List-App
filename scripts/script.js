@@ -27,6 +27,10 @@ class UI {
             destination.insertBefore( row , direct) ;
         }
 
+        if (todo.check === true) {
+            row.querySelector("P").classList.add("finished")
+        }
+
     }
 
     static clearFields(){
@@ -43,6 +47,7 @@ class UI {
     static updateStatus(position){
         let myarray = store.data().reverse() ;
         let trueorfalse = myarray[position].check ;
+        console.log(trueorfalse) ;
         document.querySelectorAll(`.task:nth-of-type(${position+1}) .done`)[0].remove() ;
         let div = document.querySelectorAll(`.task:nth-of-type(${position+1})`)[0] ;
         let befor = document.querySelectorAll(`.task:nth-of-type(${position+1}) p`)[0] ;
@@ -51,10 +56,15 @@ class UI {
         input.className = "done" ;
         if (trueorfalse === true){
             input.checked = true ;
+            // add finsied  to  text so we  can  add  line though  the  text and  change  other  stuff  like  color
+            befor.classList.add("finished")
         }else{
             input.checked = false;
+            befor.classList.remove("finished")
         }
         div.insertBefore(input , befor) ;
+        
+
 
 
     }
@@ -85,8 +95,9 @@ class store {
     }
 
     static storeTodo(todo){
-        let todos = store.data() ;
+        let todos = store.data().reverse() ;
         todos.push(todo) ;
+        todos.reverse() ;
         localStorage.setItem("todos" , JSON.stringify(todos)) ;
         
     }
@@ -104,10 +115,10 @@ class store {
 
     static updateStatus(id, index){
         let todos = store.data().reverse() ;
-        let target = todos[index]
+        let data = todos[index]
         let position ;
-        if(target.id === id){
-            target.check == true ? target["check"]=false : target["check"]=true ;
+        if(data.id === id){
+            data["check"] == true ? data["check"] = false : data["check"] = true ;
             position = index ;
         }
         todos.reverse()
@@ -154,7 +165,7 @@ document.querySelector(".todo-form").addEventListener('submit' , (e)=>{
     
 })
 
-// event : removetodo // mark as completed or  mark as not  yet
+// event : removetodo | mark as completed or  mark as not  yet
 document.querySelector(".mylist").addEventListener("click" , (e)=>{
     e.preventDefault() ;
     
@@ -167,14 +178,14 @@ document.querySelector(".mylist").addEventListener("click" , (e)=>{
         
     }
 
-    // chnage mark as complete status
-    if (e.target.className === 'done'){
+    // change mark as complete status
+    if (e.target.className === 'done' || e.target.parentElement.className === "task"){
         e.target.parentElement.classList.add("changing")
         let tasks = document.querySelectorAll('.task') ;
         tasks.forEach((ele , index) => {
             if (ele.classList.contains('changing')) {
                 e.target.parentElement.classList.remove('changing') ;
-                store.updateStatus(e.target.nextElementSibling.id , index);
+                store.updateStatus(e.target.nextElementSibling.id , index) ;
             }
         })
         
@@ -255,13 +266,14 @@ document.addEventListener("DOMContentLoaded" , () => {
         
 
         task.addEventListener("dragstart" , (e) => {
+            // e.preventDefault() ;
             if(e.target.classList.contains("task")){
                 e.target.classList.add("dragging") ;
             }
         })
 
         task.addEventListener("dragend" , (e) => {
-            e.preventDefault()
+            e.preventDefault() ;
             if (e.target.classList.contains("dragging")){
 
                 let dragging = document.querySelector('.dragging') ;
@@ -272,20 +284,23 @@ document.addEventListener("DOMContentLoaded" , () => {
                 dragging.classList.remove("dragging") ;
                 place.classList.remove("place") ;
 
-                // fixing  th e issue or  reordering  after  drag and  drop
+                // fixing  the issue or  reordering  after  drag and  drop
                 let tasks = document.querySelectorAll(".task")
                 let todos = [] ;
                 localStorage.setItem("todos" , JSON.stringify(todos)) ;
                 tasks.forEach((ele) => {
                     let check = ele.querySelector('.done').checked ;
                     let text = ele.querySelector("p").innerText ;
-                    let id = ele.querySelector(".task >p").id ;
+                    let id = ele.querySelector("p").id ;
 
                     let todo = new Todo(check , text , id) ;
                     // store todo 
+                    // console.log(todo) ;
                     store.storeTodo(todo) ;
                     
+                console.log("drop end")
                 })
+                
             }
 
 
@@ -308,4 +323,26 @@ document.addEventListener("DOMContentLoaded" , () => {
 
     })
 }) 
+
+
+
+// add line over text in case input has been changed 
+document.querySelector(".change_mode").addEventListener("click" , () => {
+    if (document.body.classList == ""){
+        document.body.classList.add('dark') ;
+        document.querySelector("form").classList.add('dark') ;
+        document.querySelector(".mylist").classList.add('dark') ;
+        document.querySelector(".change_mode").src = "images/icon-sun.svg"
+        document.querySelector(".background-image").src = "images/bg-desktop-dark.jpg"
+        
+    }else{
+        document.body.classList.remove('dark') ;
+        document.querySelector("form").classList.remove('dark') ;
+        document.querySelector(".mylist").classList.remove('dark') ;
+        document.querySelector(".change_mode").src = "images/icon-moon.svg"
+        document.querySelector(".background-image").src = "images/bg-desktop-light.jpg"
+        
+    }
+})
+
 
