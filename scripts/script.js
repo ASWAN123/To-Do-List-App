@@ -1,3 +1,5 @@
+
+
 class Todo{
     constructor (check , text , id ){
         this.check = check ;
@@ -83,7 +85,7 @@ class store {
         }else{
             todos = JSON.parse(localStorage.getItem('todos')) ;
         }
-
+        todos.reverse()
         return todos
     }
 
@@ -95,11 +97,10 @@ class store {
     }
 
     static storeTodo(todo){
-        let todos = store.data().reverse() ;
+        let todos = store.data() ;
         todos.push(todo) ;
         todos.reverse() ;
         localStorage.setItem("todos" , JSON.stringify(todos)) ;
-        
     }
 
     static removeTask(id){
@@ -110,19 +111,30 @@ class store {
             }
         })
 
+        todos.reverse() ;
+
+
         localStorage.setItem("todos" , JSON.stringify(todos)) ;
     }
 
     static updateStatus(id, index){
         let todos = store.data().reverse() ;
+        console.log(todos , 'this is correct') ;
         let data = todos[index]
+        console.log(data)
         let position ;
         if(data.id === id){
-            data["check"] == true ? data["check"] = false : data["check"] = true ;
+            if (data.check === true){
+                data['check'] = false ;
+            }else {
+                data['check'] = true ;
+            }
+            // data.check == true ? data["check"] = false : data["check"] = true ;
             position = index ;
         }
-        todos.reverse()
+        // todos.reverse() ;
         localStorage.setItem("todos" , JSON.stringify(todos)) ;
+        console.log(position  , 'this is position')
         UI.updateStatus(position) ;
 
     }
@@ -171,12 +183,13 @@ document.querySelector(".mylist").addEventListener("click" , (e)=>{
     
     // delete task 
     if (e.target.parentElement.className === 'delete'){
+        console.log(e) ;
         store.removeTask(e.target.parentElement.previousElementSibling.id) ;
         UI.removeTask(e.target.parentElement.parentElement) ;
         let filtered = store.data().filter((el)=>{return el.check === false;})
         document.querySelector(".items-left").innerText = filtered.length + " items left" ;
-        
     }
+
 
     // change mark as complete status
     if (e.target.className === 'done' || e.target.parentElement.className === "task"){
@@ -184,7 +197,9 @@ document.querySelector(".mylist").addEventListener("click" , (e)=>{
         let tasks = document.querySelectorAll('.task') ;
         tasks.forEach((ele , index) => {
             if (ele.classList.contains('changing')) {
+                console.log(e.target) ;
                 e.target.parentElement.classList.remove('changing') ;
+                console.log(index) ;
                 store.updateStatus(e.target.nextElementSibling.id , index) ;
             }
         })
@@ -203,6 +218,7 @@ document.querySelector(".clear_completed").addEventListener("click" , ()=>{
     let filtered = data.filter((el)=>{
         return el.check !== true;
     })
+    filtered.reverse()
     localStorage.setItem("todos" , JSON.stringify(filtered)) ;
 
     // update UI
@@ -258,6 +274,7 @@ document.querySelector(".All").addEventListener("click" , ()=>{
     })
 })
 
+
 // drag and drop
 document.addEventListener("DOMContentLoaded" , () => {
     let tasks = document.querySelectorAll('.task')
@@ -296,10 +313,13 @@ document.addEventListener("DOMContentLoaded" , () => {
                     let todo = new Todo(check , text , id) ;
                     // store todo 
                     // console.log(todo) ;
-                    store.storeTodo(todo) ;
-                    
+                    todos.push(todo) ;
                 console.log("drop end")
                 })
+                todos ;
+                localStorage.setItem("todos" , JSON.stringify(todos)) ;
+                console.log(todos)
+
                 
             }
 
@@ -322,7 +342,7 @@ document.addEventListener("DOMContentLoaded" , () => {
 
 
     })
-}) 
+})
 
 
 
@@ -334,6 +354,7 @@ document.querySelector(".change_mode").addEventListener("click" , () => {
         document.querySelector(".mylist").classList.add('dark') ;
         document.querySelector(".change_mode").src = "images/icon-sun.svg"
         document.querySelector(".background-image").src = "images/bg-desktop-dark.jpg"
+        document.querySelector("..notification").classList.add('dark')
         
     }else{
         document.body.classList.remove('dark') ;
@@ -341,6 +362,7 @@ document.querySelector(".change_mode").addEventListener("click" , () => {
         document.querySelector(".mylist").classList.remove('dark') ;
         document.querySelector(".change_mode").src = "images/icon-moon.svg"
         document.querySelector(".background-image").src = "images/bg-desktop-light.jpg"
+        document.querySelector("..notification").classList.remove('dark')
         
     }
 })

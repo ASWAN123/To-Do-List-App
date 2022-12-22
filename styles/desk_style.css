@@ -40,7 +40,6 @@ body {
 }
 
 header {
-    /* border: 1px solid yellow; */
     position: absolute;
     top: 5rem;
     display: flex;
@@ -55,6 +54,7 @@ header h1{
 }
 
 .container {
+    box-shadow: 0px 15px 10px -15px gray;    
     width: 40%;
     position: absolute;
     top: 10rem;
@@ -81,6 +81,8 @@ form input:nth-child(2){
     border-radius: 10px ;
     outline: none ;
     border: none ;
+    font-family: "Josefin Sans";
+    font-size: 16px;
 }
 
 form input:nth-child(2)::placeholder{
@@ -168,7 +170,7 @@ form input:nth-child(1){
     box-shadow: none ;
     background-image : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
   }
-
+/* // stack over */
 
 .mylist {
     display: flex;
@@ -177,12 +179,11 @@ form input:nth-child(1){
     background-color: white;
     border-top-right-radius:5px ;
     border-top-left-radius: 5px ;
-
 }
 
 .task {
     font-family: "Josefin Sans";
-    display: flex;
+    display: flex ;
     justify-content: space-between;
     align-items: center ;
     height: 50px;
@@ -195,13 +196,18 @@ form input:nth-child(1){
 }
 
 .task p{
-    /* border: 1px  solid yellow; */
     flex: 1 85%;
     margin-left:  4%;
 }
 
 .task .delete {
-    flex: 1 15% ;
+    margin-right: 15px;
+    flex: 1 5% ;
+    display: none;
+}
+
+.task:hover .delete{
+    display: flex;
 }
 
 .filters {
@@ -216,6 +222,11 @@ form input:nth-child(1){
     border-bottom-left-radius:5px ;
 }
 
+.mybox {
+    display: flex;
+    justify-content: space-between;
+}
+
 .items-left {
     font-size: 15px;
     margin-left: 2%;
@@ -226,7 +237,7 @@ form input:nth-child(1){
 .All , .Active , .Completed , .clear_completed {
     background-color: white;
     border: none;
-    padding: 3px;
+    padding: 10px;
     font-family: "Josefin Sans";
     cursor: pointer;
     font-size: 15px;
@@ -256,7 +267,8 @@ form input:nth-child(1){
 
 .clear_completed {
     flex: 1 30%;
-    margin-left: 5%;
+    padding-left: 5px;
+    text-align: end;
 }
 
 .finished{
@@ -269,8 +281,11 @@ form input:nth-child(1){
     cursor: pointer;
 }
 
-
+.filters button {
+    background-color: transparent;
+}
 /* // dark mode  */
+
 .dark {
     background-color: hsl(235, 21%, 11%);
 }
@@ -290,7 +305,6 @@ form input:nth-child(1){
     background-color: black;
 }
 .dark button{
-    background-color: black;
     color: white;
 }
 
@@ -301,7 +315,18 @@ form input:nth-child(1){
     color: white;
 }
 
-.dark form:nth-child(2)::placeholder{
+
+.dark .delete span{
+    background-color: white;
+}
+
+.dark form input:nth-child(2):focus{
+    font-size: 16px ;
+    font-weight: 500 ;
+    font-family: "Josefin Sans";
+    color: white;
+}
+.dark form input:nth-child(2)::placeholder{
     font-size: 16px ;
     font-weight: 500 ;
     font-family: "Josefin Sans" ;
@@ -321,7 +346,7 @@ form input:nth-child(1){
     background-color: yellow;
 }
 
-.dragging {
+.dark .dragging {
     background-color: antiquewhite;
     border: 2px solid dashed;
 }
@@ -333,3 +358,27 @@ form input:nth-child(1){
 .dark .changing{
     background-color: yellow;
 }
+
+
+.notification{
+    font-size: 14px;
+    position:absolute ;
+    margin-top: 10%;
+    margin-left: 30%;
+    opacity: 0.7;
+}
+.dark .notification{
+    color: white;
+    opacity: 0.7;
+
+}
+.background-image {
+    width: 100%;
+    height: 40%;
+}
+
+.dark .mybox {
+    background-color: black;
+    color: white;
+}
+
