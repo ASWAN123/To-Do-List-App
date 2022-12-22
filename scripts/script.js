@@ -354,7 +354,7 @@ document.querySelector(".change_mode").addEventListener("click" , () => {
         document.querySelector(".mylist").classList.add('dark') ;
         document.querySelector(".change_mode").src = "images/icon-sun.svg"
         document.querySelector(".background-image").src = "images/bg-desktop-dark.jpg"
-        document.querySelector("..notification").classList.add('dark')
+        document.querySelector(".notification").classList.add('dark')
         
     }else{
         document.body.classList.remove('dark') ;
@@ -362,7 +362,7 @@ document.querySelector(".change_mode").addEventListener("click" , () => {
         document.querySelector(".mylist").classList.remove('dark') ;
         document.querySelector(".change_mode").src = "images/icon-moon.svg"
         document.querySelector(".background-image").src = "images/bg-desktop-light.jpg"
-        document.querySelector("..notification").classList.remove('dark')
+        document.querySelector(".notification").classList.remove('dark')
         
     }
 })
