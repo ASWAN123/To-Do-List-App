@@ -290,6 +290,11 @@ form input:nth-child(1){
     background-color: hsl(235, 21%, 11%);
 }
 
+.dark .task:nth-child(1){
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
 .dark .filters{
     background-color: black;
 }
