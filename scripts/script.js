@@ -1,3 +1,26 @@
+if (!localStorage.getItem('todos')) {
+    // Generate text for the objects
+    function generateText() {
+        // Generate some random text
+        const texts = ["Lorem ipsum dolor sit amet", "Consectetur adipiscing elit", "Sed do eiusmod tempor incididunt "];
+
+        // Randomly select text
+        return texts[Math.floor(Math.random() * texts.length)];
+    }
+
+    // Create an array with 3 objects
+    const todos = [
+        { check: false, text: generateText(), id: "c28b254c1cdc3" },
+        { check: true, text: generateText(), id: "c28b254c2cdc4" },
+        { check: false, text: generateText(), id: "c28b254c13dc5" }
+    ];
+
+    // Store the array in localStorage as JSON
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+
+
 
 
 class Todo{
